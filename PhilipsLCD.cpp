@@ -5,14 +5,21 @@
 
 #include "PhilipsLCD.h"
 #include "Image.h"
-#include <stdlib.h>
 #include <stdint.h>
-#include <inttypes.h>
 #include "WProgram.h"
 
 HardwareSPI Spi(2);
 
- PhilipsLCD::PhilipsLCD() {
+ PhilipsLCD::PhilipsLCD(int pinRST, int CS, int MISO, int MOSI, int SCLK){
+//  get all the pin values in to the 
+this->pinRST=pinRST;
+this->CS= CS;
+this->MISO=MISO;
+this->MOSI=MOSI;
+this->SCLK=SCLK;
+
+//   The SPI port we will be using
+  Spi.begin(SPI_4_5MHZ , MSBFIRST, 0);   		     // starts the SPI port
 
 }
 
@@ -209,7 +216,7 @@ void PhilipsLCD::DrawBitmap(int xpos, int ypos) {
 int count = 0;
 for (int j = 0; j < sheight; j++) {
 for (int i = 0; i < swidth; i++) {
-DrawPixel(pgm_read_word_near(header_data + count),xpos+i,ypos+j);
+DrawPixel(  header_data[count],xpos+i,ypos+j);
 count++;
 }
 }
@@ -217,5 +224,5 @@ count++;
 }
 
 
-PhilipsLCD LCDP = PhilipsLCD();
+//PhilipsLCD LCDP = PhilipsLCD();
 
