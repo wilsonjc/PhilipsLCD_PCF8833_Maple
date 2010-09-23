@@ -26,13 +26,13 @@ this->SCLK=SCLK;
 void PhilipsLCD::LCDClear(int color)	// Clear the whole screen with the specified colour
 {
 
-		LCDCommand(0x2B);
+		LCDCommand(PASET);
 		LCDData(0);
 		LCDData(132);
-		LCDCommand(0x2A);
+		LCDCommand(CASET);
 		LCDData(0);
 		LCDData(132);
-		LCDCommand(0x2C);
+		LCDCommand(RAMWR);
 	for(int i=0; i < (132*132)/2; i++)
 	{
 		LCDData((color>>4)&0x00FF);
@@ -45,17 +45,17 @@ void PhilipsLCD::LCDClear(int color)	// Clear the whole screen with the specifie
 
 void PhilipsLCD::LCDInit(void)	// Initialise the screen
 {
-LCDCommand(0x11);
-LCDCommand(0x03);
-LCDCommand(0x21);
-LCDCommand(0x36);
-LCDData(0xC8);
-LCDCommand(0x3A);
-LCDCommand(0x25);
-LCDData(0x30);	
-LCDCommand(0x00);
+LCDCommand(SLEEPOUT);
+LCDCommand(BSTRON);
+LCDCommand(INVON);
+LCDCommand(MADCTL);
+LCDData(RDTEMP);
+LCDCommand(COLMOD);
+LCDCommand(SETCON);
+LCDData(PTLAR);	
+LCDCommand(NOP);
 
-LCDCommand(0x29);
+LCDCommand(DISPON);
 
 }
 
@@ -82,15 +82,15 @@ digitalWrite(CS, HIGH);
 
 void PhilipsLCD::DrawPixel(int color, unsigned char x, unsigned char y) // 12bit pixel information FORMAT: RGB, four bits for each. MAX = FFF MIN = 000
 {
-		LCDCommand(0x2B);   // x start
+		LCDCommand(PASET);   // x start
 		LCDData(x);
 		LCDData(132);
   
-		LCDCommand(0x2A);   // y start
+		LCDCommand(CASET);   // y start
 		LCDData(y);
 		LCDData(132);
   
-		LCDCommand(0x2C);    // write
+		LCDCommand(RAMWR);    // write
 		
 		LCDData((unsigned char)((color>>4)&0x00FF));
 		LCDData((unsigned char)(((color&0x0F)<<4)|0x00));
