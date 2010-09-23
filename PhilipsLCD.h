@@ -7,8 +7,6 @@
 #include <stdint.h>
 #include "WProgram.h"
 
-<<<<<<< HEAD
-=======
 // Philips PCF8833 LCD controller command codes
 #define NOP		0x00		// nop
 #define SWRESET		0x01		// software reset
@@ -17,13 +15,13 @@
 #define RDDIDIF		0x04		// read display identification
 #define RDDST		0x09		// read display status
 #define SLEEPIN		0x10		// sleep in
-#define SLEEPOUT	0x11		// sleep out
+#define SLEEPOUT		0x11		// sleep out
 #define PTLON		0x12		// partial display mode
 #define NORON		0x13		// display normal mode
 #define INVOFF		0x20		// inversion OFF
 #define INVON		0x21		// inversion ON
 #define DALO		0x22		// all pixel OFF
-#define DAL		0x23		// all pixel ON
+#define DAL			0x23		// all pixel ON
 #define SETCON		0x25		// write contrast
 #define DISPOFF		0x28		// display OFF
 #define DISPON		0x29		// display ON
@@ -61,8 +59,6 @@
 #define RDID3		0xDC		// read ID3
 
 
-
->>>>>>> wilsonjc/master
 
 class PhilipsLCD {
 
