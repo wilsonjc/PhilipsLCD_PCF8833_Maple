@@ -11,6 +11,13 @@
 
 HardwareSPI Spi(2);
 
+
+int pinRST;
+int CS;
+int MISO;
+int MOSI;
+int SCLK;
+
  PhilipsLCD::PhilipsLCD(int pinRST, int CS, int MISO, int MOSI, int SCLK){
 //  get all the pin values in to the 
 this->pinRST=pinRST;
@@ -18,6 +25,12 @@ this->CS= CS;
 this->MISO=MISO;
 this->MOSI=MOSI;
 this->SCLK=SCLK;
+
+pinMode(pinRST, OUTPUT);       // digital sensor is on digital pin 0
+pinMode(CS, OUTPUT);       // digital sensor is on digital pin 1
+pinMode(MISO, INPUT);       // digital sensor is on digital pin 2
+pinMode(MOSI, OUTPUT);       // digital sensor is on digital pin 1
+pinMode(SCLK, OUTPUT);       // digital sensor is on digital pin 2
 
 //   The SPI port we will be using
   Spi.begin(SPI_4_5MHZ , MSBFIRST, 0);   		     // starts the SPI port
@@ -46,13 +59,20 @@ void PhilipsLCD::LCDClear(int color)	// Clear the whole screen with the specifie
 
 void PhilipsLCD::LCDInit(void)	// Initialise the screen
 {
-LCDCommand(SLEEPOUT);
-LCDCommand(BSTRON);
-LCDCommand(INVON);
-LCDCommand(MADCTL);
-LCDData(RDTEMP);
-LCDCommand(COLMOD);
-LCDCommand(SETCON);
+
+//Hardware reset
+digitalWrite(pinRST, LOW);    //reset pin low
+delay(20000);
+digitalWrite(pinRST, LOW);	//reset pin high
+delay(20000);
+
+LCDCommand(SLEEPOUT);   // sleep out
+LCDCommand(BSTRON);   	// booster voltage ON
+LCDCommand(INVON);	// inversion ON
+LCDCommand(MADCTL);	// memory access control
+LCDData(0xC8);		
+LCDCommand(COLMOD);	// interface pixel format
+LCDCommand(0x25);		
 LCDData(PTLAR);	
 LCDCommand(NOP);
 
